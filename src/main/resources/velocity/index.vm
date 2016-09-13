@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Banana</title>	
+	<style type="text/css">
+    body {
+        background: #333;
+        text-align: center;
+        margin-top: 10%;
+    }
+      
+    </style>
+</head>
+<body> 
+    <canvas id="videoCanvas" width="640" height="480">
+	    <p>
+	        Please use a browser that supports the Canvas Element, like
+	        <a href="http://www.google.com/chrome">Chrome</a>,
+	        <a href="http://www.mozilla.com/firefox/">Firefox</a>,
+	        <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
+	    </p>
+	</canvas>
+   
+	<script type="text/javascript">	
+	
+	var canvas = document.getElementById('videoCanvas');
+	
+    var canvasCtx = canvas.getContext('2d');		
+// 	var currentRGBA = canvasCtx.createImageData(canvas.width, canvas.height);
+	
+// 	var decode = function(base64Image){
+//         var binaryImg = window.atob(base64Image);
+//         var ab = new ArrayBuffer(binaryImg.length);
+//         return new Uint8ClampedArray(ab);
+// 	};
+	
+	var draw = function(base64Image){
+// 		currentRGBA.data = decode(jpeg64);
+// 		canvasCtx.putImageData(new ImageData(decode(jpeg64), canvas.width, canvas.height), 0, 0);	
+		var img = new Image();
+		img.src = 'data:image/jpg;base64,' + base64Image;
+		img.onload = function() {
+		  canvasCtx.drawImage(img, 0, 0);
+		};
+	};
+	
+	// Setup the WebSocket connection and start the player
+	var ws = new WebSocket('ws://example.com:3000/webcam');
+	ws.onopen = function(e) {
+		console.log('Connected ws...');
+	};
+	ws.onclose = function() {
+		console.log('Disconnected ws...');
+	};
+	ws.onerror = function(err) {
+		console.log('Error on ws: ' + err);
+	};
+	ws.onmessage = function(e) {
+		draw(e.data);
+	};
+	
+	</script>
+	
+</body>
+</html>
