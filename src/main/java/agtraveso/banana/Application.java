@@ -12,7 +12,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import agtraveso.banana.sockets.WebcamWebSocketHandler;
+import agtraveso.banana.sockets.WebcamWebSocket;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 
@@ -34,7 +34,7 @@ public class Application {
 	public static void main(String[] args) {
 		LOG.info("launchin banana!");
 		init();
-		webSocket("/webcam", WebcamWebSocketHandler.class);
+		webSocket("/webcam", WebcamWebSocket.class);
 
 		get("/", (req, res) -> render("velocity/index.vm", new HashMap<String, Object>()));
 	}
